@@ -19,6 +19,6 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(motor_a1, HIGH);
   analogWrite(motor_a1, speed);
+  digitalWrite(motor_a2, LOW);
 }
