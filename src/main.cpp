@@ -1,20 +1,23 @@
 #include <Arduino.h>
-//This is a test, if this comment appears it all worked :D
-//project uses the C++11 language standard version.
-//Hello
-// put function declarations here:
-int myFunction(int, int);
+
+#define motor_a1 = 11
+#define motor_a2 = 10
+#define motor_b1 = 9
+#define motor_b2 = 6
+#define rot_sens_r1 = 13
+#define rot_sens_r2 = 12
+
+const int speed = 200;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  pinMode(motor_a1, OUTPUT);
+  pinMode(motor_a2, OUTPUT);
+  pinMode(motor_b1, OUTPUT);
+  pinMode(motor_b2, OUTPUT);
+  pinMode(rot_sens_r1, INPUT);
+  pinMode(rot_sens_r2, INPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  analogWrite(motor_a1, speed);
 }
