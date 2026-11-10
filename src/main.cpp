@@ -1,5 +1,6 @@
 #include <Arduino.h>
 //This is a test, if this comment appears it all worked :D
+//project uses the C++11 language standard version.
 // put function declarations here:
 int myFunction(int, int);
 
