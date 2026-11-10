@@ -1,9 +1,9 @@
 #include <Arduino.h>
 
-#define motor_a1  11
-#define motor_a2  10
-#define motor_b1  9
-#define motor_b2  6
+#define motor_a1  11 // Left Backwards
+#define motor_a2  10 // Left Forwards
+#define motor_b1  9 // Right Forwards
+#define motor_b2  6 // Right Backwards
 #define rot_sens_r1  13
 #define rot_sens_r2  12
 
@@ -19,6 +19,6 @@ void setup() {
 }
 
 void loop() {
-  analogWrite(motor_a1, speed);
-  digitalWrite(motor_a2, LOW);
+  analogWrite(motor_b1, speed);
+  digitalWrite(motor_b2, LOW);
 }
