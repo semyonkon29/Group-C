@@ -4,8 +4,8 @@
 #define motor_a2  11 // Left Backwards
 #define motor_b1  9 // Right Forwards
 #define motor_b2  6 // Right Backwards
-#define rot_sens_r1  13
-#define rot_sens_r2  12
+#define rot_sens_r1  13 // Left wheel sensor
+#define rot_sens_r2  12 // Right wheel sensor
 
 const int speed = 200;
 
