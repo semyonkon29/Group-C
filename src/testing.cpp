@@ -1,13 +1,22 @@
+
 #include <Arduino.h>
 
-#define SENSOR 12
+#define LEFT_SENSOR  13
+#define RIGHT_SENSOR 12
 
-void testSetup() {
+void setup() {
     Serial.begin(115200);
-    pinMode(SENSOR, INPUT_PULLUP);
+
+    pinMode(LEFT_SENSOR, INPUT_PULLUP);
+    pinMode(RIGHT_SENSOR, INPUT_PULLUP);
 }
 
-void testLoop() {
-    Serial.println(digitalRead(SENSOR));
-    delay(100);
+void loop() {
+    Serial.print("Left: ");
+    Serial.print(digitalRead(LEFT_SENSOR));
+
+    Serial.print(" | Right: ");
+    Serial.println(digitalRead(RIGHT_SENSOR));
+
+    delay(50);
 }
