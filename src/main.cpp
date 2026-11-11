@@ -10,6 +10,14 @@
 volatile unsigned long leftPulses = 0;
 volatile unsigned long rightPulses = 0;
 
+void leftISR() {
+    leftPulses++;
+}
+
+void rightISR() {
+    rightPulses++;
+}
+
 const int calibration = 27; // Calibration value for the right motor speed adjustment
 const int speed = 255;
 
@@ -19,23 +27,44 @@ const int pulsesPerRevolution = 20;
 float distancePerPulse =
     wheelCircumference / pulsesPerRevolution;
 
-float leftDistance = leftPulses * distancePerPulse;
-float rightDistance = rightPulses * distancePerPulse;
-
-float averageDistance =
-    (leftDistance + rightDistance) / 2.0;
-
 void setup() {
   pinMode(motor_a1, OUTPUT);
   pinMode(motor_a2, OUTPUT);
   pinMode(motor_b1, OUTPUT);
   pinMode(motor_b2, OUTPUT);
+
   pinMode(rot_sens_r1, INPUT_PULLUP);
   pinMode(rot_sens_r2, INPUT_PULLUP);
   Serial.begin(115200);
+
+  attachInterrupt(digitalPinToInterrupt(rot_sens_r1), leftISR, FALLING);
+  attachInterrupt(digitalPinToInterrupt(rot_sens_r2), rightISR, FALLING);
 }
 
 void loop() {
   analogWrite(motor_a1, speed);
   analogWrite(motor_b1, speed - calibration);
+
+  unsigned long left;
+  unsigned long right;
+
+  noInterrupts();
+  left = leftPulses;
+  right = rightPulses;
+  interrupts();
+
+  float leftDistance = leftPulses * distancePerPulse;
+  float rightDistance = rightPulses * distancePerPulse;
+
+  float averageDistance =
+      (leftDistance + rightDistance) / 2.0;
+
+  Serial.print("Left distance: ");
+  Serial.print(leftDistance);
+  Serial.print(" | Right distance: ");
+  Serial.print(rightDistance);
+  Serial.print(" | Average distance: ");
+  Serial.print(averageDistance);
+  Serial.println("cm");
+  delay(200);
 }
