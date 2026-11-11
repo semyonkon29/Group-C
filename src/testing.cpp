@@ -2,12 +2,12 @@
 
 #define SENSOR 12
 
-void setup() {
+void testSetup() {
     Serial.begin(115200);
     pinMode(SENSOR, INPUT_PULLUP);
 }
 
-void loop() {
+void testLoop() {
     Serial.println(digitalRead(SENSOR));
     delay(100);
 }

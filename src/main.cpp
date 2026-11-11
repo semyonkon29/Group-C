@@ -7,18 +7,26 @@
 #define rot_sens_r1  13 // Left wheel sensor
 #define rot_sens_r2  12 // Right wheel sensor
 
-const int speed = 200;
+const int calibration = 27; // Calibration value for the right motor speed adjustment
+const int speed = 255;
 
 void setup() {
   pinMode(motor_a1, OUTPUT);
   pinMode(motor_a2, OUTPUT);
   pinMode(motor_b1, OUTPUT);
   pinMode(motor_b2, OUTPUT);
-  pinMode(rot_sens_r1, INPUT);
-  pinMode(rot_sens_r2, INPUT);
+  pinMode(rot_sens_r1, INPUT_PULLUP);
+  pinMode(rot_sens_r2, INPUT_PULLUP);
+  Serial.begin(115200);
 }
 
 void loop() {
-  analogWrite(motor_a2, speed);
-  analogWrite(motor_b1, speed);
+  analogWrite(motor_a1, speed);
+  analogWrite(motor_b1, speed - calibration);
+
+  Serial.print("Left wheel sensor: ");
+  Serial.println(digitalRead(rot_sens_r1));
+  Serial.print("Right wheel sensor: ");
+  Serial.println(digitalRead(rot_sens_r2));
+  delay(100);
 }
