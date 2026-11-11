@@ -1,22 +1,44 @@
-
 #include <Arduino.h>
 
-#define LEFT_SENSOR  13
-#define RIGHT_SENSOR 12
+#define LEFT_SENSOR  2
+#define RIGHT_SENSOR 3
+
+volatile unsigned long leftPulses = 0;
+volatile unsigned long rightPulses = 0;
+
+void leftISR() {
+    leftPulses++;
+}
+
+void rightISR() {
+    rightPulses++;
+}
 
 void setup() {
     Serial.begin(115200);
 
     pinMode(LEFT_SENSOR, INPUT_PULLUP);
     pinMode(RIGHT_SENSOR, INPUT_PULLUP);
+
+    attachInterrupt(digitalPinToInterrupt(LEFT_SENSOR),
+                    leftISR, FALLING);
+
+    attachInterrupt(digitalPinToInterrupt(RIGHT_SENSOR),
+                    rightISR, FALLING);
 }
 
 void loop() {
-    Serial.print("Left: ");
-    Serial.print(digitalRead(LEFT_SENSOR));
+    unsigned long left, right;
 
-    Serial.print(" | Right: ");
-    Serial.println(digitalRead(RIGHT_SENSOR));
+    noInterrupts();
+    left = leftPulses;
+    right = rightPulses;
+    interrupts();
 
-    delay(50);
+    Serial.print("Left pulses: ");
+    Serial.print(left);
+    Serial.print(" | Right pulses: ");
+    Serial.println(right);
+
+    delay(200);
 }
