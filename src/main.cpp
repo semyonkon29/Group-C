@@ -50,7 +50,7 @@ void stopMotors() {
   rightPulses = 0;
 }
 
-void mb() {
+float mb() {
     goBackward(speed);
   unsigned long left;
   unsigned long right;
@@ -74,6 +74,7 @@ void mb() {
   Serial.print(averageDistance);
   Serial.println("cm");
   delay(200);
+  return averageDistance;
 }
 
 void mf() {
@@ -104,7 +105,7 @@ void mf() {
   delay(200);
   if (averageDistance >= 100) {
     while (averageDistance < 200){
-      mb(); 
+      averageDistance = mb(); 
     }
     run = false;
   }
