@@ -20,8 +20,8 @@ void rightISR() {
     rightPulses++;
 }
 
-int calibration = 0; // Calibration value for the right motor speed adjustment
-const int speed = 200;
+int rSpeed = 200;
+int lSpeed = 200;
 
 const float wheelCircumference = 6.5 * PI;
 const int pulsesPerRevolution = 20;
@@ -44,8 +44,8 @@ void setup() {
 }
 
 void loop() {
-  analogWrite(motor_a1, speed);
-  analogWrite(motor_b1, speed - calibration);
+  analogWrite(motor_a1, lSpeed);
+  analogWrite(motor_b1, rSpeed);
 
   unsigned long left;
   unsigned long right;
@@ -60,8 +60,6 @@ void loop() {
 
   float averageDistance = (leftDistance + rightDistance) / 2.0;
 
-  Serial.print("Calibration: ");
-  Serial.print(calibration);
   Serial.print(" | Left distance: ");
   Serial.print(leftDistance);
   Serial.print(" | Right distance: ");
@@ -74,14 +72,14 @@ void loop() {
 }
 
 void calibrateMotors(float leftDistance, float rightDistance) {
-    float difference = leftDistance - rightDistance;
-
-    if (difference > 1.0) {
-        calibration -= 1;
+    if (leftDistance > rightDistance) {
+        lSpeed = 200 * rSpeed / lSpeed;
     }
-    else if (difference < -1.0) {
-        calibration += 1;
+    else if (rightDistance > leftDistance) {
+        rSpeed = 200 * lSpeed / rSpeed;
     }
-
-    calibration = constrain(calibration, -100, 100);
+    Serial.print("Left speed: ");
+    Serial.print(lSpeed);
+    Serial.print(" | Right speed: ");
+    Serial.println(rSpeed);
 }
